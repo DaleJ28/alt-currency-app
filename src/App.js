@@ -1,17 +1,20 @@
-import logo from './logo.svg';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Layout from './Layout';
+
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Currency Coverter App
-        </p>
-        
-      </header>
-    </div>
+    <Router>
+      <Layout>
+        <Switch>
+          <Route path="/" exact render={() => <h1>Hello world</h1>} />
+          <Route render={() => <h1>404 Not found</h1>} />
+        </Switch>
+      </Layout>
+    </Router>
   );
 }
 
