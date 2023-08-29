@@ -6,7 +6,7 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router basename="/exchange-rate-site">
+    <Router basename="/alt-currency-app">
       <Layout>
         <Switch>
           <Route path="/" exact render={() => <h1>Hello world</h1>} />
