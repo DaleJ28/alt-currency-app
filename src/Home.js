@@ -47,6 +47,7 @@ class Home extends React.Component {
             {Object.keys(currencies).map(currencyAcronym => <option key={currencyAcronym} value={currencyAcronym}>{currencyAcronym}</option>)}
           </select>
         </form>
+        <CurrencyTable base={base} rates={rates} />
       </React.Fragment>
     )
   }
