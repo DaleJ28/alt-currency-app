@@ -3,6 +3,7 @@
 import React from 'react';
 import currencies from './utils/currencies';
 import { checkStatus, json } from './utils/fetchUtils';
+import CurrencyTable from './CurrencyTable';
 
 class Home extends React.Component {
   constructor () {
