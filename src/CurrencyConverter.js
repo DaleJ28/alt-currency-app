@@ -7,13 +7,40 @@ class CurrencyConverter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rate: 109.55,
+      rate: 0,
       baseAcronym: 'USD',
-      baseValue: 1,
+      baseValue: 0,
       quoteAcronym: 'JPY',
-      quoteValue: 1 * 109.55,
+      quoteValue: 0,
       loading: false,
     };
+  }
+
+  componentDidMount() {
+    const { baseAcronym, quoteAcronym } = this.state;
+    this.getRate(baseAcronym, quoteAcronym);
+  }
+
+  getRate = (base, quote) => {
+    this.setState({ loading: true });
+    fetch(`https://api.frankfurter.app/latest?from=${base}&to=${quote}`)
+      .then(checkStatus)
+      .then(json)
+      .then(data => {
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        const rate = data.rates[quote];
+
+        this.setState({
+          rate,
+          baseValue: 1,
+          quoteValue: Number((1 * rate).toFixed(3)),
+          loading: false,
+        });
+      })
+      .catch(error => console.error(error.message));
   }
 
   toBase(amount, rate) {
@@ -33,8 +60,9 @@ class CurrencyConverter extends React.Component {
   }
 
   changeBaseAcronym = (event) => {
-    this.setState({ baseAcronym: event.target.value });
-  } //update currency selection
+    const baseAcronym = event.target.value;	
+    this.setState({ baseAcronym });	
+    this.getRate(baseAcronym, this.state.quoteAcronym);  } //update currency selection
 
   changeBaseValue = (event) => {
     const quoteValue = this.convert(event.target.value, this.state.rate, this.toQuote);
@@ -45,8 +73,9 @@ class CurrencyConverter extends React.Component {
   } //Update base and quote inputs
 
   changeQuoteAcronym = (event) => {
-    this.setState({ quoteAcronym: event.target.value });
-  } //update currency selection 
+    const quoteAcronym = event.target.value;	
+    this.setState({ quoteAcronym });	
+    this.getRate(this.state.baseAcronym, quoteAcronym);  } //update currency selection 
 
   changeQuoteValue = (event) => {
     const baseValue = this.convert(event.target.value, this.state.rate, this.toBase);
@@ -65,7 +94,7 @@ class CurrencyConverter extends React.Component {
       <React.Fragment>
         <div className="text-center p-3">
           <h2 className="mb-2">Currency Converter</h2>
-          <h4>1 {baseAcronym} to 1 {quoteAcronym} = {rate} {currencies[quoteAcronym].name}</h4>
+          <h4>1 {baseAcronym} to 1 {quoteAcronym} = {rate.toFixed(4)} {currencies[quoteAcronym].name}</h4>
         </div>
         <form className="form-row p-3 bg-light justify-content-center">
           <div className="form-group col-md-5 mb-0">
