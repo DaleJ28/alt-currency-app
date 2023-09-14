@@ -30,8 +30,16 @@ class Home extends React.Component {
         if (data.error) {
           throw new Error(data.error);
         }
-        console.log(data);
-        this.setState({ rates: data.rates });
+        const rates = Object.keys(data.rates)
+        .filter(acronym => acronym !== base)
+        .map(acronym => ({
+          acronym,
+          rate: data.rates[acronym],
+          name: currencies[acronym].name,
+          symbol: currencies[acronym].symbol,
+        }))
+        
+        this.setState({rates});
       })
       .catch(error => console.error(error.message));
   }
