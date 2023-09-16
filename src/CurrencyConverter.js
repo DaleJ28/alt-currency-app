@@ -1,6 +1,6 @@
 // CurrencyConverter.js
 import React from 'react';
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js';
 import currencies from './utils/currencies';
 import { checkStatus, json } from './utils/fetchUtils';
 
@@ -115,7 +115,7 @@ class CurrencyConverter extends React.Component {
       return '';
     }
     return equation(input, rate).toFixed(3);
-    }
+  }
 
   changeBaseAcronym = (event) => {
     const baseAcronym = event.target.value;	
@@ -130,7 +130,7 @@ class CurrencyConverter extends React.Component {
       baseValue: event.target.value,
       quoteValue,
     });
-    } //Update base and quote inputs
+  } //Update base and quote inputs
 
   changeQuoteAcronym = (event) => {
     const quoteAcronym = event.target.value;	
